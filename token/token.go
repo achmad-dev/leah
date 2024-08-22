@@ -1,6 +1,6 @@
 package token
 
-type tokenType string
+type TokenType string
 
 const (
 	ILLEGAL = "ILLEGAL"
@@ -17,8 +17,8 @@ const (
 	ASTERISK  = "*"
 	SLASH     = "/"
 
-	SAME    = "=="
-	NOTSAME = "!="
+	EQUAL    = "=="
+	NOTEQUAL = "!="
 
 	GT = ">"
 	LT = "<"
@@ -42,12 +42,12 @@ const (
 	RETURN   = "RETURN"
 )
 
-type token struct {
-	Type    tokenType
+type Token struct {
+	Type    TokenType
 	Literal string
 }
 
-var keywords = map[string]tokenType{
+var keywords = map[string]TokenType{
 	"fn":     FUNCTION,
 	"var":    VAR,
 	"if":     IF,
@@ -56,7 +56,7 @@ var keywords = map[string]tokenType{
 	"return": RETURN,
 }
 
-func LookupIdent(ident string) tokenType {
+func LookupIdent(ident string) TokenType {
 	if token, ok := keywords[ident]; ok {
 		return token
 	}
