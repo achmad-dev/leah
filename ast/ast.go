@@ -71,6 +71,8 @@ func (v *VarStatement) TokenLiteral() string {
 	return v.Token.Literal
 }
 
+func (v *VarStatement) statementNode() {}
+
 func (v *VarStatement) String() string {
 	var out bytes.Buffer
 	out.WriteString(v.TokenLiteral() + " ")
@@ -81,4 +83,89 @@ func (v *VarStatement) String() string {
 	}
 	out.WriteString(";")
 	return out.String()
+}
+
+// return statement
+type ReturnStatement struct {
+	Value ExpressionI
+	Token token.Token
+}
+
+func (r *ReturnStatement) TokenLiteral() string {
+	return r.Token.Literal
+}
+
+func (r *ReturnStatement) statementNode() {}
+
+func (r *ReturnStatement) String() string {
+	var out bytes.Buffer
+	out.WriteString(r.TokenLiteral() + " ")
+	if r.Value != nil {
+		out.WriteString(r.Value.String())
+	}
+	out.WriteString(";")
+	return out.String()
+}
+
+// expression statement
+type ExpressionStatement struct {
+	Expression ExpressionI
+	Token      token.Token
+}
+
+func (e *ExpressionStatement) TokenLiteral() string {
+	return e.Token.Literal
+}
+
+func (e *ExpressionStatement) statementNode() {}
+
+func (e *ExpressionStatement) String() string {
+	if e.Expression != nil {
+		return e.Expression.String()
+	}
+	return ""
+}
+
+// block statement
+type BlockStatement struct {
+	Statements []StatementI
+	Token      token.Token
+}
+
+func (b *BlockStatement) TokenLiteral() string {
+	return b.Token.Literal
+}
+func (b *BlockStatement) statementNode() {}
+
+func (b *BlockStatement) String() string {
+	var out bytes.Buffer
+	for _, s := range b.Statements {
+		out.WriteString(s.String())
+		out.WriteString("\n")
+	}
+	return out.String()
+}
+
+// boolean
+
+type Boolean struct {
+	Value bool
+	Token token.Token
+}
+
+func (b *Boolean) expressionNode() {}
+
+func (b *Boolean) TokenLiteral() string {
+	return b.Token.Literal
+}
+
+func (b *Boolean) String() string {
+	return b.Token.Literal
+}
+
+// integer
+
+type Integer struct {
+	Value int64
+	Token token.Token
 }
